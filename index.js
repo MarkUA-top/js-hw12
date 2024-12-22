@@ -103,3 +103,57 @@ const productsList = [
 console.log(calculateTotalPrice(productsList, "Apple"));
 console.log(calculateTotalPrice(productsList, "Banana"));
 console.log(calculateTotalPrice(productsList, "Cherry"));
+
+// Task 7
+const account = {
+  balance: 0,
+  transactionHistory: [],
+
+  deposit(amount) {
+    if (amount <= 0) return "Введіть нормальну суму для поповнення";
+    this.balance += amount;
+    this.transactionHistory.push({
+      type: "deposit",
+      amount,
+      balanceAfter: this.balance,
+    });
+    return `Депозит ${amount}. Баланс: ${this.balance}`;
+  },
+
+  withdraw(amount) {
+    if (amount <= 0) return "Введіть нормальну суму для зняття грошей";
+    if (amount > this.balance) return "Недостатньо грошей.";
+    this.balance -= amount;
+    this.transactionHistory.push({
+      type: "withdraw",
+      amount,
+      balanceAfter: this.balance,
+    });
+    return `Зняття ${amount}. Баланс: ${this.balance}`;
+  },
+
+  getBalance() {
+    return `Баланс: ${this.balance}`;
+  },
+
+  getTransactionHistory() {
+    return this.transactionHistory.length === 0
+      ? "Історія порожня."
+      : this.transactionHistory
+          .map(
+            ({ type, amount, balanceAfter }) =>
+              `${
+                type.charAt(0).toUpperCase() + type.slice(1)
+              } ${amount} — Баланс після: ${balanceAfter}`
+          )
+          .join("\n");
+  },
+};
+
+console.log(account.deposit(200));
+console.log(account.getBalance());
+console.log(account.withdraw(100));
+console.log(account.deposit(250));
+console.log(account.withdraw(140));
+console.log(account.getTransactionHistory());
+console.log(account.getBalance());
